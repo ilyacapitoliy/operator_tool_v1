@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Operator Tool - Main</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+
+    <h1 class="text-center">Operator Tool</h1>
+    <hr>
+
+    <!-- Single Product Search Form -->
+    <h2>Check Historical Price for One Product</h2>
+    <form action="{{ url_for('search') }}" method="POST" class="mt-4">
+        <div class="form-group">
+            <label for="size">Size (e.g. 225/45R18)</label>
+            <input type="text" class="form-control" id="size" name="size" placeholder="Enter Size">
+        </div>
+        <div class="form-group">
+            <label for="brand">Brand (e.g. Pirelli)</label>
+            <input type="text" class="form-control" id="brand" name="brand" placeholder="Enter Brand">
+        </div>
+        <div class="form-group">
+            <label for="model">Model (e.g. Cinturato P7)</label>
+            <input type="text" class="form-control" id="model" name="model" placeholder="Enter Model">
+        </div>
+        <div class="form-group">
+            <label for="load_speed">LoadSpeed (e.g. 99Y)</label>
+            <input type="text" class="form-control" id="load_speed" name="load_speed" placeholder="Enter Load Speed">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <hr>
+
+    <!-- CSV Upload for Bulk Items -->
+    <h2>Upload CSV for Multiple Products</h2>
+    <form action="{{ url_for('upload_csv') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="file">Select CSV (matching.csv)</label>
+            <input type="file" class="form-control-file" id="file" name="file" accept=".csv">
+        </div>
+        <button type="submit" class="btn btn-success">Upload</button>
+    </form>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

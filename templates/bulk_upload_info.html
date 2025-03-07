@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSV Descriptive Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Matching file - Description</h2>
+    {% if df_info %}
+        <p><strong>Shape (rows x cols):</strong> {{ df_info.shape[0] }} x {{ df_info.shape[1] }}</p>
+        <p><strong>Number of Unique items:</strong></p>
+        <ul>
+            <li><strong>by Size:</strong> {{ df_info.unique_size }}</li>
+            <li><strong>by Brand:</strong> {{ df_info.unique_brand }}</li>
+            <li><strong>by Model:</strong> {{ df_info.unique_model }}</li>
+            <li><strong>by LoadSpeed:</strong> {{ df_info.unique_loadspeed }}</li>
+        </ul>
+
+        <div class="row">
+            <!-- Top 10 Frequent Sizes -->
+            <div class="col-md-6">
+                <h4>Top 10 Frequent Sizes</h4>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for elem, ct in df_info.top_10_size.items() %}
+                        <tr>
+                            <td>{{ elem }}</td>
+                            <td>{{ ct }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Top 10 Frequent Brands -->
+            <div class="col-md-6">
+                <h4>Top 10 Frequent Brands</h4>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Brand</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for elem, ct in df_info.top_10_brand.items() %}
+                        <tr>
+                            <td>{{ elem }}</td>
+                            <td>{{ ct }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Top 10 Frequent Models -->
+            <div class="col-md-6">
+                <h4>Top 10 Frequent Models</h4>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for elem, ct in df_info.top_10_model.items() %}
+                        <tr>
+                            <td>{{ elem }}</td>
+                            <td>{{ ct }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Top 10 Frequent LoadSpeeds -->
+            <div class="col-md-6">
+                <h4>Top 10 Frequent LoadSpeeds</h4>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>LoadSpeed</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for elem, ct in df_info.top_10_loadspeed.items() %}
+                        <tr>
+                            <td>{{ elem }}</td>
+                            <td>{{ ct }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p>
+            <!-- Ссылка на просмотр исторических цен -->
+            <a href="{{ url_for('bulk_results') }}" class="btn btn-primary">
+                Check the historical prices
+            </a>
+        </p>
+    {% else %}
+        <p>No descriptive info available.</p>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back</a>
+        <p>
+            <a href="{{ url_for('bulk_results') }}" class="btn btn-primary">
+                Check the historical prices
+            </a>
+        </p>
+    {% endif %}
+</div>
+</body>
+</html>

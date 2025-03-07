@@ -1,0 +1,8 @@
+Aggregator,Queried Item,Events,Min minPrice,Average minPrice,Max minPrice,Composite minPrice
+BrandModel,Goodyear Eagle F1 Asymmetric 5,61,$105.31,$277.69,$512.80,$288.94
+SizeLoadSpeed,255/45R18 103Y,9,$159.99,$221.35,$269.42,$223.80
+BrandLoadSpeed,Goodyear 103Y,9,$105.49,$386.80,$521.20,$428.72
+Model,Eagle F1 Asymmetric 5,61,$105.31,$277.69,$512.80,$288.94
+Brand,Goodyear,2612,$50.47,$226.61,$861.54,$217.30
+Size,255/45R18,41,$70.83,$209.81,$337.32,$215.40
+LoadSpeed,103Y,195,$89.60,$317.35,$745.14,$306.18

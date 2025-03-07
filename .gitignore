@@ -1,0 +1,4 @@
+*.xlsx
+*.ipynb
+old_code.txt
+__pycache__/

@@ -1,0 +1,27 @@
+/* C:\ilia_vault\projects\United_Tires\operator_tool\static\css\styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    background: #fff;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.9rem;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-bottom: 15px;
+}

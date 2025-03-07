@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bulk Prices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Bulk Historical Prices</h2>
+
+    {% if df_prices.empty %}
+        <p>No data found for bulk items. Please upload a valid CSV.</p>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>UID</th>
+                        <th>Full Product Name</th>
+                        <th>Composite minPrice</th>
+                        <th>ML Price</th>  <!-- новая колонка -->
+                    </tr>
+                </thead>
+                <tbody>
+                {% for idx, row in df_prices.iterrows() %}
+                    <tr>
+                        <td>
+                            <!-- Ссылка на детальное представление по uid -->
+                            <a href="{{ url_for('bulk_item', uid=row['uid']) }}">View Details</a>
+                        </td>
+                        <td>{{ row['uid'] }}</td>
+                        <td>{{ row['full_product'] }}</td>
+                        <td>
+                            {% if row['predicted_price'] %}
+                                ${{ "%.2f"|format(row['predicted_price']) }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <!-- Печатаем ML Price, записанный в row['ml_price'] -->
+                        <td>
+                            {% if 'ml_price' in row and row['ml_price'] %}
+                                ${{ "%.2f"|format(row['ml_price']) }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back to Main</a>
+</div>
+</body>
+</html>

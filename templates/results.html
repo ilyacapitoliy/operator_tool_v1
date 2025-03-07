@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Historical Price Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+
+    {% if message %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Main</a>
+    {% else %}
+
+        <h4>Search for: {{ search_criteria }}</h4>
+
+        <!-- Weighted Historical Price Range -->
+        <h5>Approximate Historical Price Range adjusted by all Aggregators:</h5>
+        <ul>
+            <li>minPrice range (min-max):
+                ${{ "%.2f"|format(prediction.weighted_min_minprice if prediction.weighted_min_minprice else 0) }} - ${{ "%.2f"|format(prediction.weighted_max_minprice if prediction.weighted_max_minprice else 0) }}
+            </li>
+            <li>Overall Composite minPrice:
+                ${{ "%.2f"|format(prediction.weighted_composite if prediction.weighted_composite else 0) }}
+            </li>
+        </ul>
+
+        <!-- ML Prediction (RandomForest) с доверительным интервалом -->
+        {% if ml_prediction %}
+            <h5>ML Prediction (RandomForest):</h5>
+            {% if ml_prediction.pred is defined and ml_prediction.ci_lower is defined and ml_prediction.ci_upper is defined %}
+                <ul>
+                    <li>Predicted Price: 
+                        ${{ "%.2f"|format(ml_prediction.pred) }}
+                    </li>
+                    <i>(by section, aspect, rim, brand, model, loadspeed)</i>
+                    <!-- <li>95% CI: 
+                        ${{ "%.2f"|format(ml_prediction.ci_lower) }}
+                         -
+                        ${{ "%.2f"|format(ml_prediction.ci_upper) }}
+                    </li>-->
+                </ul>
+            {% else %}
+                <!-- Если вернули только float -->
+                <p>ML Predicted Price (by section, aspect, rim, brand, model, loadspeed): ${{ "%.2f"|format(ml_prediction) }}</p>
+            {% endif %}
+        {% endif %}
+
+        <!-- Aggregator Details -->
+        <h5>Aggregator Details</h5>
+        <div class="table-responsive">
+            {{ results_table|safe }}
+        </div>
+
+        {% if filtered_csv_link and filtered_xlsx_link %}
+            <div class="mt-3">
+                <strong>Download Filtered Results:</strong>
+                <ul>
+                    <li><a href="{{ filtered_csv_link }}">CSV</a></li>
+                    <li><a href="{{ filtered_xlsx_link }}">XLSX</a></li>
+                </ul>
+            </div>
+        {% endif %}
+
+        <hr>
+        <a href="{{ url_for('bulk_results') }}" class="btn btn-primary">Back to list</a>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Main</a>
+
+    {% endif %}
+
+</div>
+</body>
+</html>
