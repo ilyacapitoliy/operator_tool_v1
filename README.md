@@ -107,6 +107,36 @@ train_model.py -> my_final_rf_model.joblib
 - `/bulk_item/<uid>` — Детальная страница для конкретного товара из массовой загрузки.
 - `/download/<filename>` — Скачивание файлов (CSV/XLSX).
 
+### 2.services.py
+
+Вся логика по загрузке, очистке и агрегированию данных:
+
+- load_and_clean_data – читает CSV, удаляет ненужные колонки, очищает выбросы (OneClassSVM), формирует поля SBM, SBMLoadSpeed и т.д.
+- create_aggregator_dataframes – группирует DataFrame по определениям (из aggregator_config.py) и считает статистику (min, max, mean и т.д.).
+- aggregated_search – находит совпадения по нужным полям (size, brand, model, load_speed) во всех агрегаторах, возвращает объединённый DataFrame.
+- predict_price_range – вычисляет взвешенный минимум, среднее и максимум на базе приоритетов.
+- process_results – подготавливает человекочитаемую таблицу для HTML (и сохраняет её в CSV/XLSX).
+- describe_uploaded_data – показывает обзор загруженного CSV (число строк/столбцов, наиболее частые значения).
+- predict_price_with_rf – вызывает предобученную модель RandomForest, чтобы вернуть предсказание цены и доверительный интервал.
+
+### 3.aggregator_config.py
+
+Содержит два словаря:
+
+- AGGREGATOR_DEFINITIONS – определяет наборы колонок для группировки (например, "SBMLoadSpeed": ["Size", "Brand", "Model", "LoadSpeed"]).
+- AGGREGATOR_PRIORITY_WEIGHTS – задаёт вес каждого агрегатора для вычисления взвешенной цены (например, 1.0 для SBMLoadSpeed, 0.7 для SizeBrandLoadSpeed).
+
+### 4.train_model.py
+
+Показывает пример того, как обучается и сохраняется модель RandomForest.
+Использует пайплайн (предобработка + регрессор), затем сериализует в my_final_rf_model.joblib.
+
+### HTML-шаблоны
+- index.html – главная страница (поиск одного товара, загрузка CSV).
+- results.html – отображение результатов для одного товара или при детальном просмотре.
+- bulk_results.html – список всех товаров из загруженного файла (композитная цена + ML прогноз).
+- bulk_upload_info.html – показывает описательную статистику по загруженному CSV.
+
 ## Структура программы
 
 - **app.py** — основной сервер Flask, маршрутизация, передача данных в шаблоны.
