@@ -166,8 +166,12 @@ python app.py
 ## Описание расчётов 
 
 **minPrice range (min-max):**
+
+Aggregator - комбинация частей названия модели (size, brand, model, loadspeed)
+
 Для каждого аггрегатора рассчитаны минимумы и максимумы minPrice
-Для Approximate Historical Price Range считается среднее значение по всем аггрегаторам отдельно по минимумам и отдельно по максимумам - в результате получается adjusted range 
+
+Для "Approximate Historical Price Range" считается среднее значение по всем аггрегаторам: отдельно по минимумам и отдельно по максимумам - в результате получается adjusted range 
 
 **Overall Composite minPrice**
 
@@ -178,23 +182,23 @@ python app.py
 Система распределения весов делится на два слоя:
 1. В 1 слое каждому аггрегатору дается вес в зависимости от полноты соответствия полному названию модели:
 
-По дефолту установлены значения для 1 слоя:
-    "SBMLoadSpeed":        1.00,
-    "SBM":                 0.90,
-    "SizeBrandLoadSpeed":  0.70,
-    "SizeBrand":           0.60,
-    "BrandModelLoadSpeed": 0.70,
-    "BrandModel":          0.60,
-    "SizeLoadSpeed":       0.60,
-    "Size":                0.30,
-    "LoadSpeed":           0.30,
-    "BrandLoadSpeed":      0.50,
-    "Brand":               0.40,
-    "Model":               0.45
+   По дефолту установлены значения для 1 слоя:
+   - "SBMLoadSpeed":        1.00,
+   - "SBM":                 0.90,
+   - "SizeBrandLoadSpeed":  0.70,
+   - "SizeBrand":           0.60,
+   - "BrandModelLoadSpeed": 0.70,
+   - "BrandModel":          0.60,
+   - "SizeLoadSpeed":       0.60,
+   - "Size":                0.30,
+   - "LoadSpeed":           0.30,
+   - "BrandLoadSpeed":      0.50,
+   - "Brand":               0.40,
+   - "Model":               0.45
 
 *Значения можно настраивать вручную в файле aggregator_config.py*
 
-2.  Во 2 слое больший вес отдается аггрегатору который встречался в исходных данных чаще
+2.  Во 2 слое больший вес отдается аггрегатору который встречался в исходных данных чаще других
 
 
 **ML Prediction (RandomForest)**
@@ -205,7 +209,7 @@ python app.py
 Датасет предварительно очищен от аномально высоких и низких цен с помощью метода SVM
 
 В результате сравнения нескольких ML-моделей с различными параметрами (GridSearchCV) , RandomForestRegressor показала наилучший результат, допустив ошибку в предсказании цены на тестовой выборке в 12.7% или $25.99.
----
+
 Статистика ошибок RandomForestRegressor:
 MAE:  25.99
 MAPE: 0.127
@@ -213,18 +217,8 @@ MSE:  2003.07
 RMSE: 44.76
 R^2:  0.865
 
-Параметры RandomForestRegressor: 
-'model__n_estimators': 500, 
-'model__min_samples_leaf': 1, 
-'model__max_features': 'sqrt', 
-'model__max_depth': None
 ---
-
 
 Нельзя сказать что данная модель в точности определяет цену по искомой шине, допуская ошибку в $25.99, так как расчет делается на внутренних исторических данных, не учитывая внешнюю текущую динамику рынка
 
 При оценке можно комбинировать показатели по Composite minPrice, Adjusted Price Range, ML-prediction, а также используя таблицу Aggregator Details и выдачу Google Shopping
-
-
-
-
