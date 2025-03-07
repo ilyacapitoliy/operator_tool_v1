@@ -1,4 +1,5 @@
 *.xlsx
 *.ipynb
 old_code.txt
+venv
 __pycache__/
