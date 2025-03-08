@@ -129,7 +129,7 @@ train_model.py -> my_final_rf_model.joblib
 
 ### 4. `train_model.py`
 
-чтобы получить файл my_final_rf_model.joblib, необходимо запустить скрипт train_model.py)
+чтобы получить файл my_final_rf_model.joblib, необходимо запустить скрипт train_model.py
 train_model.py -> my_final_rf_model.joblib
 Показывает пример того, как обучается и сохраняется модель RandomForest.
 Использует пайплайн (предобработка + регрессор), затем сериализует в my_final_rf_model.joblib.
@@ -181,7 +181,14 @@ train_model.py -> my_final_rf_model.joblib
    - Результаты отображаются пользователю в HTML и могут быть скачаны в виде CSV или XLSX.
 
 ## Запуск:
-
+```bash
+pip install -r requirements.txt
+```
+```bash
+# train_model.py -> my_final_rf_model.joblib
+# .joblib файл это ML-pipeline для предсказаний цен
+python train_model.py
+```
 ```bash
 python app.py
 ```
